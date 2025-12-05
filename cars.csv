@@ -1,0 +1,11 @@
+make,model,year,price,mileage,fuel_type
+Toyota,Camry,2020,24000,15000,Gasoline
+Honda,Civic,2019,22000,25000,Gasoline
+Ford,Mustang,2021,35000,8000,Gasoline
+Tesla,Model 3,2022,45000,5000,Electric
+BMW,3 Series,2020,38000,18000,Gasoline
+Mercedes,C-Class,2021,42000,12000,Gasoline
+Chevrolet,Bolt,2022,31000,3000,Electric
+Nissan,Altima,2019,20000,32000,Gasoline
+Hyundai,Elantra,2021,19000,10000,Gasoline
+Kia,Sorento,2020,28000,22000,Gasoline
