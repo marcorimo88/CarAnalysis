@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch all history for all branches
+          submodules: 'recursive'  # Initialize and update submodules
       
       - name: Set up Python
         uses: actions/setup-python@v4
