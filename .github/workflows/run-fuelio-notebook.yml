@@ -14,6 +14,8 @@ on:
 jobs:
   run-notebook:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push to plots branch
     
     steps:
       - name: Checkout repository
