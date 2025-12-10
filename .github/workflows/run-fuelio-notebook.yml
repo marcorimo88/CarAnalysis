@@ -1,0 +1,109 @@
+name: Run Fuelio Notebook and Save Plots
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push to plots branch
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches
+          submodules: 'recursive'  # Initialize and update submodules
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Execute Fuelio notebook
+        run: |
+          jupyter nbconvert --to notebook --execute Fuelio.ipynb --output Fuelio_executed.ipynb
+      
+      - name: Check if plots directory exists
+        id: check_plots
+        run: |
+          if [ -d "plots" ] && [ "$(ls -A plots)" ]; then
+            echo "plots_exist=true" >> $GITHUB_OUTPUT
+            echo "Plots directory exists with files"
+            ls -la plots/
+          else
+            echo "plots_exist=false" >> $GITHUB_OUTPUT
+            echo "No plots directory or empty"
+          fi
+      
+      - name: Create or checkout plots branch
+        if: steps.check_plots.outputs.plots_exist == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Check if plots branch exists remotely
+          if git ls-remote --heads origin plots | grep plots; then
+            echo "Plots branch exists, checking it out"
+            git fetch origin plots
+            git checkout plots
+          else
+            echo "Creating new orphan plots branch"
+            git checkout --orphan plots
+            git rm -rf .
+          fi
+      
+      - name: Copy plots to plots branch
+        if: steps.check_plots.outputs.plots_exist == 'true'
+        run: |
+          # Copy plots from the working directory
+          git checkout ${{ github.sha }} -- plots/
+          
+          # Create README if it doesn't exist
+          if [ ! -f "README.md" ]; then
+            cat > README.md << 'EOF'
+          # Fuelio Analysis Plots
+          
+          This branch contains automatically generated plots from the Fuelio.ipynb notebook.
+          
+          The plots are updated automatically via GitHub Actions whenever changes are pushed to the main branch.
+          
+          ## Generated Plots
+          
+          - `odometer_vs_date.png` - Odometer reading over time
+          - `avg_km_per_month.png` - Average kilometers per month with min/max range
+          - `monthly_distance_histogram.png` - Histogram of monthly distances by year
+          - `avg_km_violin_plot.png` - Violin plot of average km/month distribution by year
+          - `avg_km_boxplot.png` - Boxplot of average km/month by year
+          - `price_boxplot.png` - Boxplot of fuel prices by year
+          
+          Last updated: $(date -u)
+          EOF
+          fi
+      
+      - name: Commit and push plots
+        if: steps.check_plots.outputs.plots_exist == 'true'
+        run: |
+          git add plots/ README.md
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update plots from Fuelio notebook - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git push origin plots
+          fi
