@@ -66,16 +66,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Check if plots branch exists remotely
-          if git ls-remote --heads origin plots | grep plots; then
-            echo "Plots branch exists, checking it out"
-            git fetch origin plots
-            git checkout plots
-          else
-            echo "Creating new orphan plots branch"
-            git checkout --orphan plots
-            git rm -rf .
-          fi
+          # Fetch and checkout the existing plots branch
+          echo "Checking out existing plots branch"
+          git fetch origin plots
+          git checkout -B plots origin/plots
       
       - name: Copy plots to plots branch
         if: steps.check_plots.outputs.plots_exist == 'true'
