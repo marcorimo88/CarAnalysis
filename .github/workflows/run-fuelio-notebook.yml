@@ -51,6 +51,15 @@ jobs:
             echo "No plots directory or empty"
           fi
       
+      - name: Save plots temporarily
+        if: steps.check_plots.outputs.plots_exist == 'true'
+        run: |
+          # Save plots to a temporary location before switching branches
+          mkdir -p /tmp/plots_backup
+          cp -r plots/* /tmp/plots_backup/
+          echo "Plots backed up to /tmp/plots_backup"
+          ls -la /tmp/plots_backup/
+      
       - name: Create or checkout plots branch
         if: steps.check_plots.outputs.plots_exist == 'true'
         run: |
@@ -71,8 +80,11 @@ jobs:
       - name: Copy plots to plots branch
         if: steps.check_plots.outputs.plots_exist == 'true'
         run: |
-          # Copy plots from the working directory
-          git checkout ${{ github.sha }} -- plots/
+          # Restore plots from temporary backup
+          mkdir -p plots
+          cp -r /tmp/plots_backup/* plots/
+          echo "Plots restored from backup"
+          ls -la plots/
           
           # Create README if it doesn't exist
           if [ ! -f "README.md" ]; then
