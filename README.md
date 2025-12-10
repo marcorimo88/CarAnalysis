@@ -21,7 +21,7 @@ This project provides tools to analyze:
 - **cars.csv**: Sample dataset containing car information (make, model, year, price, mileage, fuel_type)
 - **Fuelio_sample.csv**: Sample Fuelio fuel consumption data for testing and CI execution
 - **requirements.txt**: Python dependencies required to run the notebooks
-- **database/**: Git submodule containing the CarAnalysis database (from [CarAnalysis_database](https://github.com/marcorimo88/CarAnalysis_database) repository)
+- **CarAnalysis_database/**: Git submodule containing the CarAnalysis database (from [CarAnalysis_database](https://github.com/marcorimo88/CarAnalysis_database) repository)
 
 ## Requirements
 
