@@ -12,11 +12,12 @@ This project provides tools to analyze:
 ## Files
 
 - **car_analysis.ipynb**: Basic car data analysis notebook that reads and analyzes car information from CSV files
-- **Fuelio.ipynb**: Advanced fuel consumption analysis from Fuelio app data, including:
-  - Odometer tracking over time
-  - Monthly distance metrics calculation
-  - Rolling averages (5-month window) for trend analysis
-  - Automatically executed via GitHub Actions CI
+- **Fuelio.ipynb**: Comprehensive fuel consumption analysis from Fuelio app data, including:
+  - Time-series analysis of odometer readings
+  - Monthly distance metrics with 5-month rolling averages for trend analysis
+  - Fuel consumption and pricing trend visualizations
+  - Multiple statistical plots (histograms, boxplots, violin plots)
+  - Automatically executed via GitHub Actions CI with plot generation
 - **Jupiter.ipynb**: Additional data analysis and visualizations (includes birth month distribution analysis)
 - **cars.csv**: Sample dataset containing car information (make, model, year, price, mileage, fuel_type)
 - **Fuelio_sample.csv**: Sample Fuelio fuel consumption data for testing and CI execution
