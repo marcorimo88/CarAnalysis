@@ -1,3 +1,6 @@
 [submodule "database"]
 	path = database
 	url = https://github.com/marcorimo88/CarAnalysis_database.git
+[submodule "CarAnalysis_database"]
+	path = CarAnalysis_database
+	url = git@github.com:marcorimo88/CarAnalysis_database.git
