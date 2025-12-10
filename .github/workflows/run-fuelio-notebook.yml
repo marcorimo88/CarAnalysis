@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PAT_CLONE }}  # Use a personal access token with repo permissions
+          token: ${{ secrets.PAT_for_submodules }}
           fetch-depth: 0  # Fetch all history for all branches
           submodules: 'recursive'  # Initialize and update submodules
       
