@@ -110,8 +110,6 @@ jobs:
       
       - name: Commit and push plots
         if: steps.check_plots.outputs.plots_exist == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.MAMMAMIA }}
         run: |
           git add plots/ README.md
           
