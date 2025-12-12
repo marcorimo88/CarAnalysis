@@ -4,3 +4,4 @@ matplotlib>=3.4.0
 seaborn>=0.11.0
 jupyter>=1.0.0
 nbconvert>=6.0.0
+dataframe_image>=0.1.0
