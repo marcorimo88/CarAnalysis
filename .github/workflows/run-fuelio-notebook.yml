@@ -94,9 +94,16 @@ jobs:
           - `odometer_vs_date.png` - Odometer reading over time
           - `avg_km_per_month.png` - Average kilometers per month with min/max range
           - `monthly_distance_histogram.png` - Histogram of monthly distances by year
+          - `km_l_histogram.png` - Histogram of fuel consumption (km/L)
+          - `fuel_violin_plot.png` - Violin plot of fuel consumption distribution
           - `avg_km_violin_plot.png` - Violin plot of average km/month distribution by year
+          - `avg_km_violin_plot_{year}.png` - Individual violin plots for each year (2017-2025)
+          - `eur_km_violin_plot.png` - Violin plot of cost per km (EUR/km) by year
           - `avg_km_boxplot.png` - Boxplot of average km/month by year
           - `price_boxplot.png` - Boxplot of fuel prices by year
+          - `avg_price_violin_plot.png` - Violin plot of average fuel prices
+          - `monthly_km_diff_table.png` - Table of monthly distance differences
+          - `monthly_price_table.png` - Table of monthly fuel prices
           
           Last updated: $(date -u)
           EOF
