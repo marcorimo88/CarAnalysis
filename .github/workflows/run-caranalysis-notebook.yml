@@ -1,4 +1,4 @@
-name: Run Fuelio Notebook and Save Plots
+name: Run CarAnalysis Notebook and Save Plots
 
 on:
   push:
@@ -35,9 +35,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Execute Fuelio notebook
+      - name: Execute CarAnalysis notebook
         run: |
-          jupyter nbconvert --to notebook --execute Fuelio.ipynb --output Fuelio_executed.ipynb
+          jupyter nbconvert --to notebook --execute CarAnalysis.ipynb --output CarAnalysis_executed.ipynb
       
       - name: Check if plots directory exists
         id: check_plots
@@ -83,9 +83,9 @@ jobs:
           # Create README if it doesn't exist
           if [ ! -f "README.md" ]; then
             cat > README.md << 'EOF'
-          # Fuelio Analysis Plots
+          # CarAnalysis Analysis Plots
           
-          This branch contains automatically generated plots from the Fuelio.ipynb notebook.
+          This branch contains automatically generated plots from the CarAnalysis.ipynb notebook.
           
           The plots are updated automatically via GitHub Actions whenever changes are pushed to the main branch.
           
@@ -118,6 +118,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update plots from Fuelio notebook - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "Update plots from CarAnalysis notebook - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             git push origin plots
           fi

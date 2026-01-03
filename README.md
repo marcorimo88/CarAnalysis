@@ -6,18 +6,18 @@ A Python-based data analysis project for analyzing car data using Jupyter notebo
 
 This project provides tools to analyze:
 - Car sales data (make, model, year, price, mileage, fuel type)
-- Fuel consumption data from Fuelio app
+- Fuel consumption data from CarAnalysis app
 - Statistical analysis and visualizations of car-related datasets
 
 ## Files
 
-- **Fuelio.ipynb**: Comprehensive fuel consumption analysis from Fuelio app data, including:
+- **CarAnalysis.ipynb**: Comprehensive fuel consumption analysis from CarAnalysis app data, including:
   - Time-series analysis of odometer readings
   - Monthly distance metrics with 5-month rolling averages for trend analysis
   - Fuel consumption and pricing trend visualizations
   - Multiple statistical plots (histograms, boxplots, violin plots)
   - Automatically executed via GitHub Actions CI with plot generation
-- **Fuelio_sample.csv**: Sample Fuelio fuel consumption data for testing and CI execution
+- **CarAnalysis_sample.csv**: Sample CarAnalysis fuel consumption data for testing and CI execution
 - **requirements.txt**: Python dependencies required to run the notebooks
 - **CarAnalysis_database/**: Git submodule containing the CarAnalysis database (from [CarAnalysis_database](https://github.com/marcorimo88/CarAnalysis_database) repository)
 
@@ -57,7 +57,7 @@ This project provides tools to analyze:
    ```
 
 2. Open any of the notebooks:
-   - `Fuelio.ipynb` - For fuel consumption analysis
+   - `CarAnalysis.ipynb` - For fuel consumption analysis
 
 3. Run the cells to see the analysis and visualizations
 
@@ -72,8 +72,8 @@ Contains car information with the following columns:
 - `mileage`: Mileage in miles/km
 - `fuel_type`: Type of fuel (Gasoline, Electric, etc.)
 
-### Fuelio Data
-The Fuelio notebook expects CSV data with:
+### CarAnalysis Data
+The CarAnalysis notebook expects CSV data with:
 - `Date`: Date of fuel entry
 - `Odo (km)`: Odometer reading in kilometers
 - Additional fuel consumption metrics
@@ -90,7 +90,7 @@ The Fuelio notebook expects CSV data with:
 ## Continuous Integration (CI)
 
 This repository includes a GitHub Actions workflow that automatically:
-1. Executes the Fuelio.ipynb notebook on every push to main/master branches
+1. Executes the CarAnalysis.ipynb notebook on every push to main/master branches
 2. Generates all visualization plots (odometer trends, monthly averages, price distributions, etc.)
 3. Saves the generated plots to a separate `plots` branch
 4. Maintains a history of plot updates over time
@@ -116,12 +116,12 @@ To view the latest plots, check out the `plots` branch or view them on GitHub.
 
 ### Using Custom Data
 
-To use your own Fuelio data:
-1. Export your data from the Fuelio app
-2. Set the environment variable `FUELIO_CSV_PATH` to point to your CSV file
-3. Run the notebook: `jupyter notebook Fuelio.ipynb`
+To use your own CarAnalysis data:
+1. Export your data from the CarAnalysis app
+2. Set the environment variable `CarAnalysis_CSV_PATH` to point to your CSV file
+3. Run the notebook: `jupyter notebook CarAnalysis.ipynb`
 
-The notebook will automatically use `Fuelio_sample.csv` if no custom path is provided.
+The notebook will automatically use `CarAnalysis_sample.csv` if no custom path is provided.
 
 ## License
 
