@@ -107,6 +107,7 @@ The CI workflow generates the following plots in the `plots` branch:
 - `monthly_km_diff_table.png` - Table of monthly distance totals by year
 - `monthly_price_table.png` - Table of monthly fuel costs by year
 - `fuel_price_km_plot.png` - Regression plot of Price vs km/l with Pearson correlation
+- `fuel_price_km_plot_2.png` - Regression plot of km/l vs Fuel (L)
 - `avg_km_violin_plot_{year}.png` - Individual monthly km/refill trend plots per year
 
 To view the latest plots, check out the `plots` branch or view them on GitHub.
