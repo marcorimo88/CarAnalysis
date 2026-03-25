@@ -416,7 +416,7 @@ def make_table(df: pd.DataFrame, table_id: str) -> dash_table.DataTable:
 
 TAB_STYLE = {"backgroundColor": "#1e1e2e", "color": "#cdd6f4", "padding": "8px 16px"}
 TAB_SELECTED_STYLE = {**TAB_STYLE, "backgroundColor": "#313244", "borderTop": "2px solid #89b4fa"}
-GRAPH_STYLE = {"height": "420px"}
+GRAPH_STYLE = {"height": "600px"}
 
 app = dash.Dash(__name__, title="Car Analysis")
 app.layout = html.Div(
@@ -439,7 +439,7 @@ app.layout = html.Div(
                         children=[
                             dcc.Graph(figure=fig_odometer(), style=GRAPH_STYLE),
                             dcc.Graph(figure=fig_cumulative_cost(), style=GRAPH_STYLE),
-                            dcc.Graph(figure=fig_avg_km_refill(), style={"height": "380px"}),
+                            dcc.Graph(figure=fig_avg_km_refill(), style=GRAPH_STYLE),
                         ]),
 
                 # ── Distance ───────────────────────────────────────────────
@@ -463,7 +463,7 @@ app.layout = html.Div(
                                 value=years[-1],
                                 clearable=False,
                                 style={"backgroundColor": "#313244", "color": "#cdd6f4",
-                                       "border": "none", "maxWidth": "200px"},
+                                       "border": "none", "maxWidth": "600px"},
                             ),
                             dcc.Graph(id="monthly-trend-graph", style=GRAPH_STYLE),
                         ]),
@@ -505,8 +505,8 @@ app.layout = html.Div(
                 # ── Heatmaps ───────────────────────────────────────────────
                 dcc.Tab(label="Heatmaps", style=TAB_STYLE, selected_style=TAB_SELECTED_STYLE,
                         children=[
-                            dcc.Graph(figure=fig_heatmap_km(), style={"height": "460px"}),
-                            dcc.Graph(figure=fig_heatmap_cost(), style={"height": "460px"}),
+                            dcc.Graph(figure=fig_heatmap_km(), style=GRAPH_STYLE),
+                            dcc.Graph(figure=fig_heatmap_cost(), style=GRAPH_STYLE),
                         ]),
 
                 # ── Correlations ───────────────────────────────────────────
