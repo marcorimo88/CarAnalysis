@@ -3,6 +3,7 @@ Fuelio Fuel Consumption Analysis — Plotly Dash App
 Replicates all analyses from CarAnalysis.ipynb as interactive charts.
 """
 
+import sys
 import os
 import calendar
 
@@ -15,76 +16,14 @@ from plotly.subplots import make_subplots
 import dash
 from dash import dcc, html, dash_table, Input, Output
 
+# Allow running from the Plotly/ subdirectory or the project root
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+from caranalysis import build_fuel_data
+
 # ─── Data Loading ─────────────────────────────────────────────────────────────
 
-def load_data() -> pd.DataFrame:
-    csv_path = os.getenv("FUELIO_CSV_PATH")
-    if not csv_path:
-        db_dir = os.path.join(os.path.dirname(__file__), "..", "CarAnalysis_database")
-        if os.path.exists(db_dir) and any(
-            f.startswith("Fuelio") and f.endswith(".csv") for f in os.listdir(db_dir)
-        ):
-            csv_files = [f for f in os.listdir(db_dir) if f.startswith("Fuelio") and f.endswith(".csv")]
-            csv_path = os.path.join(db_dir, sorted(csv_files)[-1])
-        else:
-            csv_path = "Fuelio_sample.csv"
-
-    with open(csv_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-    footer_count = 1
-    for line in reversed(lines):
-        if "CostCategories" not in line.strip():
-            footer_count += 1
-        else:
-            break
-
-    df = pd.read_csv(csv_path, skiprows=[0, 1, 2, 3], skipfooter=footer_count, engine="python")
-    df.sort_values(by="Odo (km)", inplace=True)
-    df["Date"] = pd.to_datetime(df["Date"])
-
-    yearly_mean = (
-        df[df["km/l"] > 0].groupby(df["Date"].dt.year)["km/l"].mean()
-    )
-    mask = df["km/l"] == 0
-    df.loc[mask, "km/l"] = df.loc[mask, "Date"].dt.year.map(yearly_mean)
-
-    return df
-
-
-def calculate_avg_km_per_month(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    df["Year-Month"] = df["Date"].dt.to_period("M")
-    df["Year"] = df["Date"].dt.to_period("Y")
-    df["Month"] = df["Date"].dt.month
-    df["MonthName"] = df["Month"].apply(lambda x: calendar.month_name[x])
-    df["Year_name"] = df["Date"].dt.year
-    df["Month_name"] = df["Date"].dt.month_name()
-    df["km_diff"] = df["Odo (km)"].diff()
-
-    monthly_km = df.groupby("Year-Month")["km_diff"].sum()
-    monthly_cost = df.groupby("Year-Month")["Price"].sum()
-    monthly_mean_km = df.groupby("Year-Month")["km_diff"].mean()
-    max_km = df.groupby("Year-Month")["km_diff"].max()
-    min_km = df.groupby("Year-Month")["km_diff"].min()
-    liter = df.groupby("Year-Month")["Fuel (L)"].sum()
-    size_km = df.groupby("Year-Month").size()
-
-    df["monthly_km"] = df["Year-Month"].map(monthly_km).astype(float)
-    df["monthly_cost"] = df["Year-Month"].map(monthly_cost).astype(float)
-    df["monthly_mean_km"] = df["Year-Month"].map(monthly_mean_km).astype(float)
-    df["monthly_km_size"] = df["Year-Month"].map(size_km).astype(float)
-    df["Avgkm/refill"] = (df["monthly_km"] / df["monthly_km_size"]).astype(float)
-    df["Avgkm/liter"] = df["monthly_km"] / df["Year-Month"].map(liter).astype(float)
-    df["Maxkm/month"] = df["Year-Month"].map(max_km).astype(float)
-    df["Minkm/month"] = df["Year-Month"].map(min_km).astype(float)
-    df["Eur/km"] = (df["Price"] / df["km_diff"].replace(0, np.nan)).astype(float)
-    df["Price/L"] = df["Price"] / df["Fuel (L)"]
-    df["cumulative_cost"] = df["Price"].cumsum()
-    return df
-
-
 # Load once at startup
-fuel_data = calculate_avg_km_per_month(load_data())
+fuel_data = build_fuel_data()
 all_months_df = pd.DataFrame({
     "Month": range(1, 13),
     "MonthName": [calendar.month_name[i] for i in range(1, 13)],
