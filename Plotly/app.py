@@ -461,6 +461,11 @@ app.layout = html.Div(
                                 "Fuel Efficiency vs Volume Refilled",
                                 y_range=[0, 55],
                             ), style=GRAPH_STYLE),
+                            dcc.Graph(figure=fig_regression(
+                                "km_diff", "km/l",
+                                "Distance Between Refills vs Fuel Efficiency",
+                                y_range=[0, 20],
+                            ), style=GRAPH_STYLE),
                         ]),
 
                 # ── Tables ─────────────────────────────────────────────────
